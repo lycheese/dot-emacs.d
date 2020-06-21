@@ -16,6 +16,9 @@
 (setq doom-theme 'doom-dracula)
 (setq display-line-numbers-type 'relative)
 
+;;; mouse support
+(setq mouse-highlight nil)
+
 ;;; auto-mode
 (add-to-list 'auto-mode-alist '("\\xmobarrc" . haskell-mode))
 
@@ -23,7 +26,7 @@
 ;; prompt
 ;; (setq eshell-prompt-function ...)
 
-;;; keys
+;;; authentification
 ;; THIS MUST BE A LIST!!!
 (setq auth-sources '("~/.authinfo.gpg"))
 (setq auth-source-debug 'trivia)
@@ -56,7 +59,7 @@
   (setq org-agenda-files (directory-files-recursively org-directory "org$")))
 
 ;; org-agenda save org-files on quit and switching by RET
-;; (general-advice-add '(org-agenda-quit org-agenda-switch-to)  :before 'org-save-all-org-buffers)
+(general-advice-add '(org-agenda-quit org-agenda-switch-to)  :before 'org-save-all-org-buffers)
 
 ;; continue list when inserting a new line with =o=
 (setq evil-org-special-o/O '(table-row item))
@@ -73,6 +76,21 @@
 (map! :map org-mode-map
       (:prefix "g"
        :n "o" 'org-new-heading-and-insert))
+
+;; org-bable
+;; needed for #+BIND statements, but can be set locally
+;; (setq org-export-allow-bind-keywords t)
+;; enables code highlighting in latex exports
+;; (setq org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "bibtex %b"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+;; allows manipulation of verbatim blocks like #+RESULTS with a function
+;; (setq org-export-filter-verbatim-functions '())
+(setq org-latex-default-table-mode 'table)
 
 ;; org-capture
 (after! org-capture
