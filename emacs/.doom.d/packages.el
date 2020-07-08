@@ -3,3 +3,4 @@
 
 (package! mu4e)
 (package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia"))
+(package! anki-editor)
