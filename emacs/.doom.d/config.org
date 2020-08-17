@@ -1,0 +1,365 @@
+#+TITLE: Config
+* Global
+** Small stuff
+Handling two buffers with the same name via longer displayed path rather than name<2>.
+#+BEGIN_SRC elisp
+(setq-default uniquify-buffer-name-style 'forward)
+#+END_SRC
+Unicode instead of ...
+#+BEGIN_SRC elisp
+(setq truncate-string-ellipsis "…")
+#+END_SRC
+Display battery charge when available.
+#+BEGIN_SRC elisp
+(unless (equal "Battery status not available" (battery))
+  (display-battery-mode 1))
+#+END_SRC
+Iterate through camelCase words.
+#+BEGIN_SRC elisp
+(global-subword-mode 1)
+#+END_SRC
+** Identity
+#+BEGIN_SRC elisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+(setq user-full-name "Elia Nolz"
+      user-mail-address "eliarnolz@gmail.com")
+#+END_SRC
+** Look
+Set fonts and theme.
+
+Doom exposes five (optional) variables for controlling fonts in Doom. Here
+are the three important ones:
++ `doom-font'
++ `doom-variable-pitch-font'
++ `doom-big-font' -- used for `doom-big-font-mode'
+They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
+font string. You generally only need these two:
+#+BEGIN_SRC elisp
+(setq doom-font (font-spec :family "Iosevka Fixed SS09" :size 11.5))
+(setq doom-theme 'doom-dracula)
+(setq display-line-numbers-type nil)
+#+END_SRC
+** Mouse
+Disable highlighting of e.g. org-agenda items with mouse hover.
+#+BEGIN_SRC elisp
+(setq mouse-highlight nil)
+#+END_SRC
+* Custom mode assignment
+Enable proper syntax highlighting for xmobarrc.
+#+BEGIN_SRC elisp
+(add-to-list 'auto-mode-alist '("\\xmobarrc" . haskell-mode))
+#+END_SRC
+* Eshell
+Set a new prompt for eshell(function needs to be regexp-compliant to allow tab completion of commands).
+#+BEGIN_SRC elisp
+;; (setq eshell-prompt-function ...)
+#+END_SRC
+** Aliases
+Defining eshell aliases.
+#+BEGIN_SRC elisp
+(after! eshell
+  (set-eshell-alias!
+   "la" "ls -al"
+   "brctl" "brightnessctl set $1"
+   "mymap" "xkbcomp -I/home/lycheese/.config/xkb /home/lycheese/.config/xkb/myMap $DISPLAY"))
+#+END_SRC
+* Calc
+Setting up a keybinding for calc(best calculator).
+#+BEGIN_SRC elisp
+(map! :leader
+      :prefix "o"
+      :n "c" 'calc-dispatch)
+#+END_SRC
+* Org
+Setting the org directory.
+#+BEGIN_SRC elisp
+(setq org-directory "~/Nextcloud/org/")
+#+END_SRC
+Useless pretty symbols for folded headings.
+#+BEGIN_SRC elisp
+;; (setq org-ellipsis "⤵")
+#+END_SRC
+Less eye candy.
+#+BEGIN_SRC elisp
+(remove-hook 'org-mode-hook #'org-superstar-mode)
+#+END_SRC
+** org-agenda
+Detect all files for org agenda.
+#+BEGIN_SRC elisp
+(after! org-agenda
+  (setq org-agenda-files (directory-files-recursively org-directory "org$")))
+#+END_SRC
+Make org-agenda save org-files on quit and switching by RET.
+#+BEGIN_SRC elisp
+(general-advice-add '(org-agenda-quit org-agenda-switch-to)  :before 'org-save-all-org-buffers)
+#+END_SRC
+*** org-habit
+#+BEGIN_SRC elisp
+(after! org
+  (add-to-list 'org-modules 'org-habit))
+#+END_SRC
+** org-archive
+#+BEGIN_SRC elisp
+(setq org-archive-location "~/Nextcloud/org/archive.org::* From %s")
+#+END_SRC
+** evil-org
+Continue list when inserting a new line with =o=.
+#+BEGIN_SRC elisp
+(setq evil-org-special-o/O '(table-row item))
+#+END_SRC
+Use =g o= to insert new headline even when not on a headline and switch to insert mode.
+#+BEGIN_SRC elisp
+(defun org-new-heading-and-insert ()
+  "Executes org-ctrl-c-ret and places pointer in insert mode"
+  (interactive)
+  (org-ctrl-c-ret)
+  (evil-insert 0))
+
+(map! :map org-mode-map
+      (:prefix "g"
+       :n "o" 'org-new-heading-and-insert))
+#+END_SRC
+** org-babel
+Needed for #+BIND statements, but can be set locally.
+#+BEGIN_SRC elisp
+;; (setq org-export-allow-bind-keywords t)
+#+END_SRC
+Inactive Code:
+#+BEGIN_SRC elisp
+;; org-bable
+;; enables code highlighting in latex exports
+;; (setq org-latex-packages-alist '("" "minted"))
+;; allows manipulation of verbatim blocks like #+RESULTS with a function
+;; (setq org-export-filter-verbatim-functions '())
+#+END_SRC
+*** latex
+Enable highlighting for org-babel code-exports to latex documents.
+#+BEGIN_SRC elisp
+(setq org-latex-listings 'minted)
+#+END_SRC
+Modified pdflatex-commands for =minted= compatibility.
+#+BEGIN_SRC elisp
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "bibtex %b"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+Not sure why I added this...
+#+BEGIN_SRC elisp
+(setq org-latex-default-table-mode 'table)
+#+END_SRC
+** TODO org-capture
+#+BEGIN_SRC elisp
+(after! org-capture
+  (setq org-capture-templates
+        '(("t" "Tasks")
+          ("tt" "Task for today" entry
+           (file+datetree "notes.org")
+           "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n SCHEDULED: %t\n%?\nAdded: %U")
+          ("ts" "Scheduled task" entry
+           (file+datetree "notes.org")
+           "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n SCHEDULED: %^t\n%?\nAdded: %U")
+          ("td" "Scheduled task with deadline" entry
+           (file+datetree "notes.org")
+           "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n DEADLINE: %^t\n%?\nAdded: %U")
+          ("tn" "Not scheduled task" entry
+           (file+datetree "notes.org")
+           "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n%?\nAdded: %U")
+
+          ("n" "Notes" entry
+           (file+datetree "notes.org")
+           "* %U %^{Title} %^G\n%?")
+
+;; From org-contacts
+;; :PROPERTIES:
+;; :EMAIL: %(org-contacts-template-email)
+;; :PHONE:
+;; :ALIAS:
+;; :NICKNAME:
+;; :IGNORE:
+;; :ICON:
+;; :NOTE:
+;; :ADDRESS:
+;; :BIRTHDAY:
+;; :END:")))
+          ("c" "Contacts")
+          ("cp" "Private contact" entry
+           (file+olp "contacts.org" "Kontakte" "Privat")
+           "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
+           :immediate-finish t)
+          ("cf" "Family contact" entry
+           (file+olp "contacts.org" "Kontakte" "Familie")
+           "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
+           :immediate-finish t)
+          ("cw" "Work contact" entry
+           (file+olp "contacts.org" "Kontakte" "Arbeit")
+           "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
+           :immediate-finish t)
+          ("co" "Other contacts" entry
+           (file+olp "contacts.org" "Kontakte" "Andere")
+           "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
+           :immediate-finish t)
+
+          ("j" "Japanese vocab")
+          ("jn" "Japanese noun" entry
+           (file+olp+datetree "hobby/japanese.org" "Vocab" "Noun")
+           "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nAdditional stuff: %?")
+          ("jv" "Japanese verb" entry
+           (file+olp+datetree "hobby/japanese.org" "Vocab" "Verb")
+           "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nType: %^{Ichidan or Godan?|Ichidan|Godan} and %^{Transitivity|Transitive|Intransitive}\nAdditional stuff: %?")
+          ("ja" "Japanese adjective" entry
+           (file+olp+datetree "hobby/japanese.org" "Vocab" "Adjective")
+           "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nType: %^{i-adj or na-adj|i-adj|na-adj}\nAdditional stuff: %?")
+          ("jo" "Other japanese vocab" entry
+           (file+olp+datetree "hobby/japanese.org" "Vocab" "Other")
+           "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nAdditional stuff: %?"))))
+#+END_SRC
+** deft
+Setup deft directory tree with recursive searching.
+#+BEGIN_SRC elisp
+(setq deft-directory "~/Nextcloud/org/"
+      deft-recursive t)
+#+END_SRC
+* TODO Anki
+#+BEGIN_SRC elisp
+(use-package! anki-editor
+  :after org
+  :bind (:map org-mode-map
+         ("<f12>" . anki-editor-cloze-region-auto-incr)
+         ("<f11>" . anki-editor-cloze-region-dont-incr)
+         ("<f10>" . anki-editor-reset-cloze-number)
+         ("<f9>"  . anki-editor-push-tree))
+  :hook (org-capture-after-finalize . anki-editor-reset-cloze-number)
+  :config
+  (setq anki-editor-create-decks t
+        ankid-editor-org-tags-as-anki-tags t)
+  (defun anki-editor-cloze-region-auto-incr (&optional arg)
+    "Cloze region without hint and increase card number."
+    (interactive)
+    (anki-editor-cloze-region my-anki-editor-cloze-number "")
+    (setq my-anki-editor-cloze-number (1+ my-anki-editor-cloze-number))
+    (forward-sexp))
+  (defun anki-editor-cloze-region-dont-incr (&optional arg)
+    "Cloze region without hint using the previous card number."
+    (interactive)
+    (anki-editor-cloze-region (1- my-anki-editor-cloze-number) "")
+    (forward-sexp))
+  (defun anki-editor-reset-cloze-number (&optional arg)
+    "Reset cloze number to ARG or 1."
+    (interactive)
+    (setq my-anki-editor-cloze-number (or arg 1)))
+  (defun anki-editor-push-tree ()
+    "Push all notes under a tree."
+    (interactive)
+    (anki-editor-push-notes '(4))
+    (anki-editor-reset-cloze-number))
+  (anki-editor-reset-cloze-number))
+#+END_SRC
+* Writeroom
+?
+#+BEGIN_SRC elisp
+(setq writeroom-fullscreen-effect t)
+#+END_SRC
+* Languages
+** Elisp
+Make ert easier to reach.
+#+BEGIN_SRC elisp
+(map! :map emacs-lisp-mode-map
+      (:localleader
+       :prefix "e"
+       :n "t" 'ert))
+#+END_SRC
+** Projectile
+?
+#+BEGIN_SRC elisp
+(setq projectile-project-search-path '("~/dev" "~/Nextcloud"))
+#+END_SRC
+* Mail
+** General
+Append mu4e to the open menu.
+#+BEGIN_SRC elisp
+;; (map! :leader
+;;       :prefix "o"
+;;       :n "m" 'mu4e)
+#+END_SRC
+
+Setting up mail directories.
+#+BEGIN_SRC elisp
+(after! mu4e
+  (setq mu4e-root-maildir "~/Mail")
+  (setq mu4e-attachment-dir "~/Downloads"))
+#+END_SRC
+
+Setting up message deletion behaviour for gmail while excluding the non-gmail addresses.
+#+BEGIN_SRC elisp
+(after! mu4e
+  (setq mu4e-sent-messages-behavior
+        (lambda ()
+          (if (string= (message-sendmail-envelope-from) "nb191@stud.uni-heidelberg.de")
+              'sent
+            'delete))))
+#+END_SRC
+
+Set color luminance to enhance contrast for html emails as they often tend to be unreadable in mu4e.
+#+BEGIN_SRC elisp
+(after! mu4e
+  (setq shr-color-visible-luminance-min 80))
+#+END_SRC
+
+Always ask which context should be used when composing new mail.
+#+BEGIN_SRC elisp
+(after! mu4e
+  (setq mu4e-compose-context-policy 'ask))
+#+END_SRC
+** Contexts
+Simplified mu4e contexts
+#+BEGIN_SRC elisp
+(set-email-account! "litschi246"
+                    '((mu4e-sent-folder       . "/litschi246/[Gmail]/Sent Mail")
+                      (mu4e-drafts-folder     . "/litschi246/[Gmail]/Drafts")
+                      (mu4e-trash-folder      . "/litschi246/[Gmail]/Trash")
+                      (mu4e-refile-folder     . "/litschi246/[Gmail]/All Mail")
+                      (smtpmail-smtp-user     . "litschi246@gmail.com")
+                      (user-mail-address      . "litschi246@gmail.com")
+                      (mu4e-compose-signature . "Elia Nolz")))
+#+END_SRC
+** Prettifying
+No astrisks and angle brackets in the mu4e main view.
+Needs to be an advice rather than an after-block because =mu4e-main-action-string= is called by evil-collection-mu4e in doom's usepackage.
+#+BEGIN_SRC elisp
+(defadvice! mu4e~main-action-prettier-str (str &optional func-or-shortcut)
+  "Highlight the first occurrence of [.] in STR.
+If FUNC-OR-SHORTCUT is non-nil and if it is a function, call it
+when STR is clicked (using RET or mouse-2); if FUNC-OR-SHORTCUT is
+a string, execute the corresponding keyboard action when it is
+clicked."
+  :override #'mu4e~main-action-str
+  (let ((newstr
+         (replace-regexp-in-string
+          "\\[\\(..?\\)\\]"
+          (lambda(m)
+            (format "%s"
+                    (propertize (match-string 1 m) 'face '(mode-line-emphasis bold))))
+          (replace-regexp-in-string "\t\\*" "\t⚫" str)))
+        (map (make-sparse-keymap))
+        (func (if (functionp func-or-shortcut)
+                  func-or-shortcut
+                (if (stringp func-or-shortcut)
+                    (lambda()(interactive)
+                      (execute-kbd-macro func-or-shortcut))))))
+    (define-key map [mouse-2] func)
+    (define-key map (kbd "RET") func)
+    (put-text-property 0 (length newstr) 'keymap map newstr)
+    (put-text-property (string-match "[A-Za-z].+$" newstr)
+                       (- (length newstr) 1) 'mouse-face 'highlight newstr)
+    newstr))
+
+(setq evil-collection-mu4e-end-region-misc "quit")
+#+END_SRC
+* Secrets
+=auth-sources= _MUST_ be a list!
+#+BEGIN_SRC elisp
+(setq auth-sources '("~/.authinfo.gpg"))
+(setq auth-source-debug 'trivia)
+#+END_SRC
