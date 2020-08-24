@@ -169,20 +169,20 @@ Not sure why I added this...
   (setq org-capture-templates
         '(("t" "Tasks")
           ("tt" "Task for today" entry
-           (file+datetree "notes.org")
+           (file+olp+datetree "notes.org")
            "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n SCHEDULED: %t\n%?\nAdded: %U")
           ("ts" "Scheduled task" entry
-           (file+datetree "notes.org")
+           (file+olp+datetree "notes.org")
            "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n SCHEDULED: %^t\n%?\nAdded: %U")
           ("td" "Scheduled task with deadline" entry
-           (file+datetree "notes.org")
+           (file+olp+datetree "notes.org")
            "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n DEADLINE: %^t\n%?\nAdded: %U")
           ("tn" "Not scheduled task" entry
-           (file+datetree "notes.org")
+           (file+olp+datetree "notes.org")
            "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n%?\nAdded: %U")
 
           ("n" "Notes" entry
-           (file+datetree "notes.org")
+           (file+olp+datetree "notes.org")
            "* %U %^{Title} %^G\n%?")
 
 ;; From org-contacts
@@ -329,13 +329,12 @@ Always ask which context should be used when composing new mail.
 ** Contexts
 Simplified mu4e contexts
 #+BEGIN_SRC elisp
-(set-email-account! "litschi246"
-                    '((mu4e-sent-folder       . "/litschi246/[Gmail]/Sent Mail")
-                      (mu4e-drafts-folder     . "/litschi246/[Gmail]/Drafts")
-                      (mu4e-trash-folder      . "/litschi246/[Gmail]/Trash")
-                      (mu4e-refile-folder     . "/litschi246/[Gmail]/All Mail")
-                      (smtpmail-smtp-user     . "litschi246@gmail.com")
-                      (user-mail-address      . "litschi246@gmail.com")
+(set-email-account! "nb191"
+                    '((mu4e-sent-folder       . "/nb191/Sent")
+                      (mu4e-drafts-folder     . "/nb191/Drafts")
+                      (mu4e-trash-folder      . "/nb191/Trash")
+                      (smtpmail-smtp-user     . "nb191@stud.uni-heidelberg.de")
+                      (user-mail-address      . "nb191@stud.uni-heidelberg.de")
                       (mu4e-compose-signature . "Elia Nolz")))
 #+END_SRC
 ** Prettifying
