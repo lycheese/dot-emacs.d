@@ -7,15 +7,27 @@ Enable proper syntax highlighting for xmobarrc.
 (add-to-list 'auto-mode-alist '("\\xmobarrc" . haskell-mode))
 #+END_SRC
 ** Global Keybindings
+*** C-a/C-e
+Making C-a and C-e behave like I expect them to.
+#+begin_src elisp
+(map! :n "C-e"                          #'move-end-of-line)
+(map! :mode org-mode
+      :n "C-e"                          #'org-end-of-line)
+#+end_src
+*** Org-capture
 Switching the bindings for org-capture and scratch buffer(which I almost never use).
 #+BEGIN_SRC elisp
 (map! :leader
       :desc "Org capture"           "x" #'org-capture
       :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
 #+END_SRC
+*** Recentf
+Making recentf available via my preferred emacs bindings.
+#+begin_src elisp
+(map! :n "C-x C-r"                      #'counsel-recentf)
+#+end_src
 ** Identity
 #+BEGIN_SRC elisp
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 (setq user-full-name "Elia Nolz"
       user-mail-address "eliarnolz@gmail.com")
 #+END_SRC
@@ -242,10 +254,17 @@ Less eye candy.
 (remove-hook 'org-mode-hook #'org-superstar-mode)
 #+END_SRC
 Personal todo keywords.
+
+[[https://orgmode.org/manual/Tracking-TODO-state-changes.html][Tracking of TODO state changes]]:
+- ! for a timestamp
+- @ for a note with a timestamp
+- @/! for a note with a timestamp when entering the state and a timestamp when leaving the state
+- The variable =org-log-into-drawer= can be set to log this state changes into a specific drawer instead of inserting it directly into the body of the respective heading. The recommended setting for this is =LOGBOOK=.
 #+BEGIN_SRC elisp
 (after! org
-  (setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "STRT(s)" "WAIT(w)" "HOLD(h)" "FILE(f)" "|" "DONE(d)" "KILL(k)")
-                            (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")))
+  (setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "STRT(s@)" "WAIT(w@/!)" "HOLD(h@/!)" "FILE(f@)" "|" "DONE(d!)" "KILL(k@)")
+                            (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)"))
+        org-log-into-drawer "LOGBOOK")
   (add-to-list 'org-todo-keyword-faces '("FILE" . +org-todo-active)))
 #+END_SRC
 ** Modules
@@ -276,7 +295,15 @@ Use =g o= to insert new headline even when not on a headline and switch to inser
 Detect all files for org agenda.
 #+BEGIN_SRC elisp
 (after! org-agenda
-  (setq org-agenda-files (directory-files-recursively org-directory "org$")))
+  (setq org-agenda-files (directory-files-recursively org-directory "org$")
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-include-deadlines t
+        org-agenda-block-separator nil
+        org-agenda-compact-blocks t
+        org-agenda-start-day nil
+        org-agenda-span 'day
+        org-agenda-start-on-weekday nil))
 #+END_SRC
 Make org-agenda save org-files on quit and switching by RET.
 #+BEGIN_SRC elisp
@@ -295,14 +322,6 @@ Make org-agenda save org-files on quit and switching by RET.
 (use-package! org-super-agenda
   :hook (org-agenda-mode . org-super-agenda-mode)
   :init
-  (setq org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t
-        org-agenda-include-deadlines t
-        org-agenda-block-separator nil
-        org-agenda-compact-blocks t
-        org-agenda-start-day nil
-        org-agenda-span 1
-        org-agenda-start-on-weekday nil)
   (setq org-super-agenda-groups
         '((:name "Today"
            :time-grid t
