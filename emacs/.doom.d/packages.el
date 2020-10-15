@@ -6,3 +6,5 @@
 
 (package! org-super-agenda)
 (package! org-caldav :recipe (:host github :repo "dengste/org-caldav"))
+
+(package! hyperbole)

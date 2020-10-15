@@ -49,8 +49,28 @@ font string.
  ((string= (system-name) "Nanorocket")
   (setq doom-font (font-spec :family "Fira Code Retina" :size 11.5)
         doom-variable-pitch-font (font-spec :family "Overpass"))))
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'modus-operandi)
 (setq display-line-numbers-type nil)
+#+END_SRC
+Switching themes according to time of day.
+I'd really like for it to be called only once at a certain time of day or once after that time til it reaches another time of day, but for now I'll have to use timers.
+#+BEGIN_SRC elisp
+(defun synchronize-theme ()
+  (setq hour
+        (string-to-number
+         (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 6 18))
+      (setq now 'modus-operandi)
+    (setq now 'modus-vivendi))
+  (if (equal now doom-theme)
+      nil
+    (load-theme now)))
+
+;; (run-with-timer 0 3600 'synchronize-theme)
+;; (run-at-time "07:00" nil 'synchronize-theme)
+;; (run-at-time "19:00" nil 'synchronize-theme)
+(run-at-time "00:00" 3600 'synchronize-theme)
+;; (run-at-time "19:00" nil (load-theme 'modus-vivendi))
 #+END_SRC
 ** Mouse
 Disable highlighting of e.g. org-agenda items with mouse hover.
@@ -117,6 +137,28 @@ Setting up a keybinding for calc(best calculator).
       :prefix "o"
       :n "c" 'calc)
 #+END_SRC
+* Company
+Make pressing <return> only complete a candidate if interacting with the completion menu before pressing the key, insert newline otherwise.
+#+BEGIN_SRC elisp
+;; (after! company-mode
+;;   (defun company-complete-if-explicit ()
+;;     "Complete the current selection, but only if the user has interacted explicitly with Company."
+;;     (interactive)
+;;     (if (company-explicit-action-p)
+;;         (company-complete)
+;;       (call-interactively
+;;        (key-binding (this-command-keys)))))
+;;   (map! :map company-active-map
+;;         :i "<return>" #'company-complete-if-explicit))
+;;
+;; The code below needs to be transposed into the map! format for this to work.
+;; For now I'll just quit company-completion with C-g if I don't intend to complete sth.
+;; (define-key company-active-map (kbd key)
+;;   `(menu-item nil company-complete
+;;             :filter ,(lambda (cmd)
+;;                        (when (company-explicit-action-p)
+;;                          cmd)))))
+#+END_SRC
 * Eshell
 Set a new prompt for eshell(function needs to be regexp-compliant to allow tab completion of commands).
 #+BEGIN_SRC elisp
@@ -138,6 +180,11 @@ Binding useful shortcuts for navigation.
 ;;       :n "J" 'eshell-next-prompt
 ;;       :n "K" 'eshell-previous-prompt
 ;;       :n "?" '+eshell/search-history)
+#+END_SRC
+* Hyperbole
+#+BEGIN_SRC elisp
+(use-package! hyperbole
+  :bind ("C-h h" . hyperbole))
 #+END_SRC
 * IRC
 ** Discord
@@ -264,8 +311,14 @@ Personal todo keywords.
 (after! org
   (setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "STRT(s@)" "WAIT(w@/!)" "HOLD(h@/!)" "FILE(f@)" "|" "DONE(d!)" "KILL(k@)")
                             (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)"))
-        org-log-into-drawer "LOGBOOK")
+        ;; org-log-into-drawer "LOGBOOK"
+        org-log-into-drawer nil)
   (add-to-list 'org-todo-keyword-faces '("FILE" . +org-todo-active)))
+#+END_SRC
+Scaling inline-images
+#+BEGIN_SRC elisp
+(after! org
+  (setq org-image-actual-width (truncate (/ (display-pixel-width) 4.5))))
 #+END_SRC
 ** Modules
 *** deft
