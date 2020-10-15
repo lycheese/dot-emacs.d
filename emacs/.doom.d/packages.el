@@ -8,3 +8,6 @@
 (package! org-caldav :recipe (:host github :repo "dengste/org-caldav"))
 
 (package! hyperbole)
+
+(package! modus-operandi-theme)
+(package! modus-vivendi-theme)
