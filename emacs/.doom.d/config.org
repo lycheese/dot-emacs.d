@@ -49,12 +49,12 @@ font string.
  ((string= (system-name) "Nanorocket")
   (setq doom-font (font-spec :family "Fira Code Retina" :size 11.5)
         doom-variable-pitch-font (font-spec :family "Overpass"))))
-(setq doom-theme 'modus-operandi)
+(setq doom-theme 'doom-rouge)
 (setq display-line-numbers-type nil)
 #+END_SRC
 Switching themes according to time of day.
 I'd really like for it to be called only once at a certain time of day or once after that time til it reaches another time of day, but for now I'll have to use timers.
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :tangle no
 (defun synchronize-theme ()
   (setq hour
         (string-to-number
@@ -242,6 +242,12 @@ Always ask which context should be used when composing new mail.
 (after! mu4e
   (setq mu4e-compose-context-policy 'ask))
 #+END_SRC
+
+Debugging for smtpmail
+#+BEGIN_SRC elisp
+(after! mu4e
+  (setq smtpmail-debug-info t))
+#+END_SRC
 ** Contexts
 Simplified mu4e contexts
 #+BEGIN_SRC elisp
@@ -250,6 +256,7 @@ Simplified mu4e contexts
                       (mu4e-drafts-folder     . "/nb191/Drafts")
                       (mu4e-trash-folder      . "/nb191/Trash")
                       (smtpmail-smtp-user     . "nb191@stud.uni-heidelberg.de")
+                      (smtpmail-smtp-server   . "mail.urz.uni-heidelberg.de")
                       (user-mail-address      . "nb191@stud.uni-heidelberg.de")
                       (mu4e-compose-signature . "Elia Nolz")))
 #+END_SRC
@@ -535,8 +542,9 @@ Useful capture templates for japanese vocab, contacts, tasks and more.
 =auth-sources= _MUST_ be a list!
 #+BEGIN_SRC elisp
 ;; (setq auth-sources '("~/.authinfo.gpg"))
-(setq auth-sources '(password-store))
-(setq auth-source-debug 'trivia)
+;; (setq auth-sources '(password-store))
+(auth-source-pass-enable)
+;; (setq auth-source-debug 'trivia)
 #+END_SRC
 ** Pass
 Binding keys for pass and ivy-pass.
