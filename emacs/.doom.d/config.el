@@ -53,6 +53,8 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(setq doom-font (font-spec :family "Fira Code" :size 12.0))
+
 (map! :map ivy-minibuffer-map "<right>" 'ivy-alt-done)
 (map! :g "C-&" 'other-window)
 (map! :map key-translation-map "C-ü" "C-x")
