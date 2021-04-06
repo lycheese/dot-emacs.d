@@ -68,6 +68,9 @@
 (after! projectile
   (setq projectile-switch-project-action #'projectile-commander))
 
+;;; Nix
+(set-formatter! 'nixpkgs-fmt "nixpkgs-fmt" :modes '(nix-mode))
+
 ;;; Org
 (after! org
   ;; General org settings
