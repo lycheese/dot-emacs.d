@@ -130,7 +130,9 @@
             (:name "Overdue"
              :and  (:scheduled past
                     :not (:todo "PROJ"))
-             :order 1))))
+             :order 1)))
+    :config
+    (setq org-super-agenda-header-map (make-sparse-keymap)))
 
   ;; Org archive settings
   (setq org-archive-location "~/org/archive.org::* From %s")
