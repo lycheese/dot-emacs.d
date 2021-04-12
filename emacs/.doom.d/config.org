@@ -237,6 +237,8 @@ Additional stuff: %?")))
 
 (map! :nv "g s <down>" 'evilem-motion-next-line
       :nv "g s <up>" 'evilem-motion-previous-line)
+
+(map! :nv "ü" 'evil-snipe-repeat)
 #+end_src
 * Mouse highlight
 #+begin_src elisp
