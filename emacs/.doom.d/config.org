@@ -21,7 +21,7 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 (pcase (system-name)
-  ((or  "nanocore" "pop-os") (setq doom-font (font-spec :family "TerminessTTF Nerd Font Mono" :size 14.0)))
+  ((or  "nanocore" "pop-os") (setq doom-font (font-spec :family "Monoid Nerd Font Mono" :size 13.0)))
   ("nanorocket" (setq doom-font (font-spec :family "TerminessTTF Nerd Font Mono" :size 14.0)))
   (_ (message "No font for this hostname defined")))
 #+end_src
