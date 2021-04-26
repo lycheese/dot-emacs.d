@@ -253,3 +253,7 @@ Additional stuff: %?")))
 ;;; Nix
 (set-formatter! 'nixpkgs-fmt "nixpkgs-fmt" :modes '(nix-mode))
 #+end_src
+* Hyperbole
+#+begin_src elisp
+(use-package! hyperbole)
+#+end_src
