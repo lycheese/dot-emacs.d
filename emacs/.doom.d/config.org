@@ -257,3 +257,9 @@ Additional stuff: %?")))
 #+begin_src elisp
 (use-package! hyperbole)
 #+end_src
+* Gnus
+#+begin_src elisp
+(use-package! gnus
+  :config
+  (setq gnus-select-method '(nnnil nil)))
+#+end_src
