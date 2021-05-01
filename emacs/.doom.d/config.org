@@ -23,6 +23,9 @@
 #+begin_src elisp
 ;;; Nix
 (set-formatter! 'nixpkgs-fmt "nixpkgs-fmt" :modes '(nix-mode))
+;;; Dockerfile
+;; (set-formatter! 'none "none" :modes '(dockerfile-mode))
+(setq-hook! 'dockerfile-mode-hook +format-with :none)
 #+end_src
 * Gnus
 #+begin_src elisp
