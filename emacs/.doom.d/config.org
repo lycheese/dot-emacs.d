@@ -97,7 +97,7 @@
 (setq org-directory "~/org/")
 #+end_src
 
-#+begin_src elisp
+#+begin_src elisp :noweb yes
 ;;; Org
 (after! org
   ;; General org settings
@@ -113,7 +113,46 @@
   (add-to-list 'org-modules 'org-habit)
   (general-advice-add '(org-agenda-quit org-agenda-switch-to) :before 'org-save-all-org-buffers)
 
-  (use-package org-super-agenda
+  <<org-super-agenda-config>>
+
+  ;; Org archive settings
+  (setq org-archive-location "~/org/archive.org::* From %s")
+
+  ;; Org capture templates
+  <<org-capture-templates>>
+
+  ;; Org todo keywords
+  <<org-todo-states>>)
+#+end_src
+** org-todo-states
+#+name: org-todo-states
+#+begin_src elisp :tangle no
+(setq org-todo-keywords '((sequence "TODO(t)"
+                                    "PROJ(p)"
+                                    "STRT(s@)"
+                                    "WAIT(w@/!)"
+                                    "HOLD(h@/!)"
+                                    "IDEA(i)"
+                                    "FILE(f@)"
+                                    "|"
+                                    "DONE(d!)"
+                                    "KILL(k@)")
+                          (sequence "[ ](T)"
+                                    "[-](S)"
+                                    "[?](W)"
+                                    "|"
+                                    "[X](D)")
+                          (sequence "|"
+                                    "OKAY(o)"
+                                    "YES(y)"
+                                    "NO(n)")))
+
+(add-to-list 'org-todo-keyword-faces '("FILE" . +org-todo-active))
+#+end_src
+** org-super-agenda
+#+name: org-super-agenda-config
+#+begin_src elisp :tangle no
+(use-package org-super-agenda
     :hook (org-agenda-mode . org-super-agenda-mode)
     :init
     (setq org-super-agenda-groups
@@ -163,38 +202,61 @@
              :order 1)))
     :config
     (setq org-super-agenda-header-map (make-sparse-keymap)))
+#+end_src
+** org-capture-templates
+#+name: org-capture-templates
+#+begin_src elisp :tangle no :noweb yes
+(setq org-capture-templates
+      '(;; Noweb import of the respective templates
+        <<org-capture-tasks>>
 
-  ;; Org archive settings
-  (setq org-archive-location "~/org/archive.org::* From %s")
+        <<org-capture-projects>>
 
-  ;; Org capture templates
-  (setq org-capture-templates
-        '(("t" "Tasks")
-          ("tt" "Task for today" entry
-           (file+olp+datetree "notes.org")
-           "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n SCHEDULED: %t\n%?\nAdded: %U")
-          ("ts" "Scheduled task" entry
-           (file+olp+datetree "notes.org")
-           "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n SCHEDULED: %^t\n%?\nAdded: %U")
-          ("td" "Scheduled task with deadline" entry
-           (file+olp+datetree "notes.org")
-           "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n DEADLINE: %^t\n%?\nAdded: %U")
-          ("tn" "Not scheduled task" entry
-           (file+olp+datetree "notes.org")
-           "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n%?\nAdded: %U")
+        <<org-capture-notes>>
 
-          ("p" "Project" entry
-           (file+olp+datetree "notes.org")
-           "* PROJ %^{Project} %^G\n%?\nAdded: %U")
+        <<org-capture-anki>>
 
-          ("n" "Notes" entry
-           (file+olp+datetree "notes.org")
-           "* %U %^{Title} %^G\n%?")
+        <<org-capture-contacts>>
 
-          ("a" "Anki Cards")
-          ("ab" "Anki Basic Block I" entry
-           (file+olp+datetree "anki.org" "Block I")
-           "* %<%H:%M:%S>  %^g
+        <<org-capture-japanese>>))
+#+end_src
+*** org-capture-tasks
+#+name: org-capture-tasks
+#+begin_src elisp :tangle no
+("t" "Tasks")
+("tt" "Task for today" entry
+ (file+olp+datetree "notes.org")
+ "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n SCHEDULED: %t\n%?\nAdded: %U")
+("ts" "Scheduled task" entry
+ (file+olp+datetree "notes.org")
+ "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n SCHEDULED: %^t\n%?\nAdded: %U")
+("td" "Scheduled task with deadline" entry
+ (file+olp+datetree "notes.org")
+ "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n DEADLINE: %^t\n%?\nAdded: %U")
+("tn" "Not scheduled task" entry
+ (file+olp+datetree "notes.org")
+ "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n%?\nAdded: %U")
+#+end_src
+*** org-capture-projects
+#+begin_src elisp :tangle no
+("p" "Project" entry
+ (file+olp+datetree "notes.org")
+ "* PROJ %^{Project} %^G\n%?\nAdded: %U")
+#+end_src
+*** org-capture-notes
+#+name: org-capture-notes
+#+begin_src elisp :tangle no
+("n" "Notes" entry
+ (file+olp+datetree "notes.org")
+ "* %U %^{Title} %^G\n%?")
+#+end_src
+*** org-capture-anki
+#+name: org-capture-anki
+#+begin_src elisp :tangle no
+("a" "Anki Cards")
+("ab" "Anki Basic Block I" entry
+ (file+olp+datetree "anki.org" "Block I")
+ "* %<%H:%M:%S>  %^g
 :PROPERTIES:
 :ANKI_NOTE_TYPE: Org-Import
 :ANKI_DECK: Block I
@@ -204,27 +266,30 @@
 %?
 ,** Back
 %i")
-
-          ("c" "Contacts")
-          ("cp" "Private contact" entry
-           (file+olp "contacts.org" "Kontakte" "Privat")
-           "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
-           :immediate-finish t)
-          ("cf" "Family contact" entry
-           (file+olp "contacts.org" "Kontakte" "Familie")
-           "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
-           :immediate-finish t)
-          ("cw" "Work contact" entry
-           (file+olp "contacts.org" "Kontakte" "Arbeit")
-           "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
-           :immediate-finish t)
-          ("co" "Other contacts" entry
-           (file+olp "contacts.org" "Kontakte" "Andere")
-           "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
-           :immediate-finish t)
-          ("cn" "New contact template" entry
-           (file+olp "contacts.org" "Kontakte" "Testbereich")
-           "* %^{Name}
+#+end_src
+*** org-capture-contacts
+#+name: org-capture-contacts
+#+begin_src elisp :tangle no
+("c" "Contacts")
+("cp" "Private contact" entry
+ (file+olp "contacts.org" "Kontakte" "Privat")
+ "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
+ :immediate-finish t)
+("cf" "Family contact" entry
+ (file+olp "contacts.org" "Kontakte" "Familie")
+ "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
+ :immediate-finish t)
+("cw" "Work contact" entry
+ (file+olp "contacts.org" "Kontakte" "Arbeit")
+ "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
+ :immediate-finish t)
+("co" "Other contacts" entry
+ (file+olp "contacts.org" "Kontakte" "Andere")
+ "* %^{Name}\n Email: %^{Email}\nTelephone: %^{Telephone number}\n** TODO Geburtstag von %\\1\nSCHEDULED: %^{Birthday}t"
+ :immediate-finish t)
+("cn" "New contact template" entry
+ (file+olp "contacts.org" "Kontakte" "Testbereich")
+ "* %^{Name}
 :PROPERTIES:
 :EMAIL: %^{Email}
 :PHONE: %^{Telefon}
@@ -233,55 +298,36 @@
 :END:
 ,,** TODO Geburtstag von %\\1
 SCHEDULED:%^{Geburtstag}t %?")
-
-          ("j" "Japanese vocab")
-          ("jn" "Japanese noun" entry
-           (file+olp+datetree "hobby/japanese.org" "Vocab" "Noun")
-           "* %^{Japanese} \[%^{Reading}\] %^g
+#+end_src
+*** org-capture-japanese
+#+name: org-capture-japanese
+#+begin_src elisp :tangle no
+("j" "Japanese vocab")
+("jn" "Japanese noun" entry
+ (file+olp+datetree "hobby/japanese.org" "Vocab" "Noun")
+ "* %^{Japanese} \[%^{Reading}\] %^g
 Translation: %^{English}
 New Kanji?: %^{New Kanji?|Yes|No}
 Additional stuff: %?")
-          ("jv" "Japanese verb" entry
-           (file+olp+datetree "hobby/japanese.org" "Vocab" "Verb")
-           "* %^{Japanese} \[%^{Reading}\] %^g
+("jv" "Japanese verb" entry
+ (file+olp+datetree "hobby/japanese.org" "Vocab" "Verb")
+ "* %^{Japanese} \[%^{Reading}\] %^g
 Translation: %^{English}
 New Kanji?: %^{New Kanji?|Yes|No}
 Type: %^{Ichidan or Godan?|Ichidan|Godan} and %^{Transitivity|Transitive|Intransitive}
 Additional stuff: %?")
-          ("ja" "Japanese adjective" entry
-           (file+olp+datetree "hobby/japanese.org" "Vocab" "Adjective")
-           "* %^{Japanese} \[%^{Reading}\] %^g
+("ja" "Japanese adjective" entry
+ (file+olp+datetree "hobby/japanese.org" "Vocab" "Adjective")
+ "* %^{Japanese} \[%^{Reading}\] %^g
 Translation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}
 Type: %^{i-adj or na-adj|i-adj|na-adj}
 Additional stuff: %?")
-          ("jo" "Other japanese vocab" entry
-           (file+olp+datetree "hobby/japanese.org" "Vocab" "Other")
-           "* %^{Japanese} \[%^{Reading}\] %^g
+("jo" "Other japanese vocab" entry
+ (file+olp+datetree "hobby/japanese.org" "Vocab" "Other")
+ "* %^{Japanese} \[%^{Reading}\] %^g
 Translation: %^{English}
 New Kanji?: %^{New Kanji?|Yes|No}
-Additional stuff: %?")))
-
-  ;; Org todo keywords
-  (setq org-todo-keywords '((sequence "TODO(t)"
-                                      "PROJ(p)"
-                                      "STRT(s@)"
-                                      "WAIT(w@/!)"
-                                      "HOLD(h@/!)"
-                                      "IDEA(i)"
-                                      "FILE(f@)"
-                                      "|"
-                                      "DONE(d!)"
-                                      "KILL(k@)")
-                            (sequence "[ ](T)"
-                                      "[-](S)"
-                                      "[?](W)"
-                                      "|"
-                                      "[X](D)")
-                            (sequence "|"
-                                      "OKAY(o)"
-                                      "YES(y)"
-                                      "NO(n)")))
-  (add-to-list 'org-todo-keyword-faces '("FILE" . +org-todo-active)))
+Additional stuff: %?")
 #+end_src
 * Programming
 ** Scheme
