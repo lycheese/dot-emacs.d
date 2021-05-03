@@ -256,16 +256,7 @@
 ("a" "Anki Cards")
 ("ab" "Anki Basic Block I" entry
  (file+olp+datetree "anki.org" "Block I")
- "* %<%H:%M:%S>  %^g
-:PROPERTIES:
-:ANKI_NOTE_TYPE: Org-Import
-:ANKI_DECK: Block I
-:ANKI_TAGS: FS7
-:END:
-,** Front
-%?
-,** Back
-%i")
+ "* %<%H:%M:%S>  %^g\n:PROPERTIES:\n:ANKI_NOTE_TYPE: Org-Import\n:ANKI_DECK: Block I\n:ANKI_TAGS: FS7\n:END:\n** Front\n%?\n** Back\n%i")
 #+end_src
 *** org-capture-contacts
 #+name: org-capture-contacts
@@ -289,15 +280,7 @@
  :immediate-finish t)
 ("cn" "New contact template" entry
  (file+olp "contacts.org" "Kontakte" "Testbereich")
- "* %^{Name}
-:PROPERTIES:
-:EMAIL: %^{Email}
-:PHONE: %^{Telefon}
-:ALIAS: %^{Alias}
-:ADDRESS: %^{Adresse}
-:END:
-,,** TODO Geburtstag von %\\1
-SCHEDULED:%^{Geburtstag}t %?")
+ "* %^{Name}\n:PROPERTIES:\n:EMAIL: %^{Email}\n:PHONE: %^{Telefon}\n:ALIAS: %^{Alias}\n:ADDRESS: %^{Adresse}\n:END:\n** TODO Geburtstag von %\\1\nSCHEDULED:%^{Geburtstag}t %?")
 #+end_src
 *** org-capture-japanese
 #+name: org-capture-japanese
@@ -305,29 +288,16 @@ SCHEDULED:%^{Geburtstag}t %?")
 ("j" "Japanese vocab")
 ("jn" "Japanese noun" entry
  (file+olp+datetree "hobby/japanese.org" "Vocab" "Noun")
- "* %^{Japanese} \[%^{Reading}\] %^g
-Translation: %^{English}
-New Kanji?: %^{New Kanji?|Yes|No}
-Additional stuff: %?")
+ "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nAdditional stuff: %?")
 ("jv" "Japanese verb" entry
  (file+olp+datetree "hobby/japanese.org" "Vocab" "Verb")
- "* %^{Japanese} \[%^{Reading}\] %^g
-Translation: %^{English}
-New Kanji?: %^{New Kanji?|Yes|No}
-Type: %^{Ichidan or Godan?|Ichidan|Godan} and %^{Transitivity|Transitive|Intransitive}
-Additional stuff: %?")
+ "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nType: %^{Ichidan or Godan?|Ichidan|Godan} and %^{Transitivity|Transitive|Intransitive}\nAdditional stuff: %?")
 ("ja" "Japanese adjective" entry
  (file+olp+datetree "hobby/japanese.org" "Vocab" "Adjective")
- "* %^{Japanese} \[%^{Reading}\] %^g
-Translation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}
-Type: %^{i-adj or na-adj|i-adj|na-adj}
-Additional stuff: %?")
+ "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nType: %^{i-adj or na-adj|i-adj|na-adj}\nAdditional stuff: %?")
 ("jo" "Other japanese vocab" entry
  (file+olp+datetree "hobby/japanese.org" "Vocab" "Other")
- "* %^{Japanese} \[%^{Reading}\] %^g
-Translation: %^{English}
-New Kanji?: %^{New Kanji?|Yes|No}
-Additional stuff: %?")
+ "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nAdditional stuff: %?")
 #+end_src
 * Programming
 ** Scheme
