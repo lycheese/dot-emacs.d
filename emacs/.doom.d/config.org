@@ -264,6 +264,12 @@ Additional stuff: %?")))
                                       "NO(n)")))
   (add-to-list 'org-todo-keyword-faces '("FILE" . +org-todo-active)))
 #+end_src
+* Programming
+** Scheme
+#+begin_src elisp
+;; (after! geiser
+;;   (setq geiser-active-implementations '("guile")))
+#+end_src
 * Theme
 #+begin_src elisp
 ;; There are two ways to load a theme. Both assume the theme is installed and
