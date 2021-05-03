@@ -84,6 +84,7 @@
 (after! org
   ;; General org settings
   (setq org-log-into-drawer t
+        org-id-link-to-org-use-id 'use-existing
         org-startup-folded t
         evil-org-special-o/O '(table-row item))
 
