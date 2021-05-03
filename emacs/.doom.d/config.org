@@ -56,18 +56,58 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
       user-mail-address "elia@nolz.org")
 #+end_src
 * Keybindings
+Emulating helm behaviour since it meshes nicely with the bone keyboard layout:
 #+begin_src elisp
 (map! :map ivy-minibuffer-map "<right>" 'ivy-alt-done)
-(map! :g "C-&" 'other-window)
-(map! :map key-translation-map "C-ü" "C-x")
+#+end_src
 
+Easier binding for ~other-window~ (=C-CAPS-p= in QWERTY, =C-M3-w= in bone):
+#+begin_src elisp
+(map! :g "C-&" 'other-window)
+#+end_src
+
+Easier binding for =C-x= (=C-c= in QWERTY):
+#+begin_src elisp
+(map! :map key-translation-map "C-ü" "C-x")
+#+end_src
+
+Make org-agenda and org-capture quicker to open:
+#+begin_src elisp
 (map! :g "C-c a" 'org-agenda-list
       :g "C-c c" 'org-capture)
+#+end_src
 
+Make less akward bindings for =gsj= and =gsk= (though =gs<SPC>= is better in every way):
+#+begin_src elisp
 (map! :nv "g s <down>" 'evilem-motion-next-line
-      :nv "g s <up>" 'evilem-motion-previous-line)
+      :nv "g s <up>" 'evilem-motion-previous-line
+      :nv "g s i" 'evilem-motion-next-line
+      :nv "g s r" 'evilem-motion-previous-line)
+#+end_src
 
+Make avy be nicer with bone:
+#+begin_src elisp
+(after! avy
+  :config
+  (setq avy-keys '(?c ?t ?i ?e ?n ?r ?s ?g)))
+#+end_src
+
+Make evil snipe nice to work with:
+#+begin_src elisp
 (map! :nv "ü" 'evil-snipe-repeat)
+#+end_src
+
+Make accessible keybindings for ~org-schedule~ and other commands that read a date:
+#+begin_src elisp
+(map! :map org-read-date-minibuffer-local-map
+      :g "C-<left>" (lambda () (interactive) (org-eval-in-calendar
+                                              '(calendar-backward-day 1)))
+      :g "C-<right>" (lambda () (interactive) (org-eval-in-calendar
+                                               '(calendar-forward-day 1)))
+      :g "C-<up>" (lambda () (interactive) (org-eval-in-calendar
+                                            '(calendar-backward-week 1)))
+      :g "C-<down>" (lambda () (interactive) (org-eval-in-calendar
+                                              '(calendar-forward-week 1))))
 #+end_src
 * Line numbers
 This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to ~relative~.
