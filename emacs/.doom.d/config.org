@@ -72,6 +72,24 @@
 #+begin_src elisp
 (setq mouse-highlight nil)
 #+end_src
+* mu4e
+#+begin_src elisp
+(unless (string-equal (system-name) "pop-os")
+  (add-to-list 'load-path "/run/current-system/sw/share/emacs/site-lisp/mu4e/"))
+
+(set-email-account! "lycheese-mailo"
+                    '((mu4e-sent-folder   . "/lycheese-mailo/sent")
+                      (mu4e-drafts-folder . "/lycheese-mailo/draftbox")
+                      (mu4e-trash-folder  . "/lycheese-mailo/Trash")
+                      (smtpmail-smtp-user . "fixme")))
+(set-email-account! "uni"
+                    '((mu4e-sent-folder      . "/nb191/Sent")
+                      (mu4e-drafts-folder    . "/nb191/Drafts")
+                      (mu4e-trash-folder     . "/nb191/Trash")
+                      (smtpmail-smtp-user    . "nb191@stud.uni-heidelberg.de")
+                      (smtpmail-smtp-server  . "mail.urz.uni-heidelberg.de")
+                      (smtpmail-smtp-service . 587)))
+#+end_src
 * Org
 #+begin_src elisp
 ;; If you use `org' and don't want your org files in the default location below,
