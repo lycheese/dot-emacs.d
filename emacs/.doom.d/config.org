@@ -347,6 +347,13 @@ This determines the style of line numbers in effect. If set to `nil', line numbe
  "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nAdditional stuff: %?")
 #+end_src
 * Programming
+** julia
+#+begin_src elisp
+(after! lsp-julia
+  (setq lsp-julia-package-dir nil)
+  (setq lsp-julia-default-environment "~/.julia/environments/v1.5")
+  (setq lsp-enable-folding t))
+#+end_src
 * Theme
 There are two ways to load a theme. Both assume the theme is installed and
 available. You can either set ~doom-theme~ or manually load a theme with the
