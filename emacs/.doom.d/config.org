@@ -284,6 +284,7 @@ This determines the style of line numbers in effect. If set to `nil', line numbe
  "* %^{Select type|TODO|WAIT|HOLD|KILL|DONE} %^{Task} %^G\n%?\nAdded: %U")
 #+end_src
 *** org-capture-projects
+#+name: org-capture-projects
 #+begin_src elisp :tangle no
 ("p" "Project" entry
  (file+olp+datetree "notes.org")
