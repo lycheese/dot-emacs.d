@@ -1,4 +1,9 @@
 #+TITLE: Doom Emacs Configuration
+* Evil
+#+begin_src elisp
+(after! evil
+  (setq evil-disable-insert-state-bindings t))
+#+end_src
 * Font
 Doom exposes five (optional) variables for controlling fonts in Doom. Here
 are the three important ones:
