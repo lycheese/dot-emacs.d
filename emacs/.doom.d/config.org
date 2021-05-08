@@ -92,6 +92,18 @@ Make bone work with feature/pgtk:
 (map! :map key-translation-map "H-<insert>" "<insert>")
 (map! :map key-translation-map "H-<undo>" "<undo>")
 
+
+(map! :map key-translation-map "H-<kp-1>" "1")
+(map! :map key-translation-map "H-<kp-2>" "2")
+(map! :map key-translation-map "H-<kp-3>" "3")
+(map! :map key-translation-map "H-<kp-4>" "4")
+(map! :map key-translation-map "H-<kp-5>" "5")
+(map! :map key-translation-map "H-<kp-6>" "6")
+(map! :map key-translation-map "H-<kp-7>" "7")
+(map! :map key-translation-map "H-<kp-8>" "8")
+(map! :map key-translation-map "H-<kp-9>" "9")
+(map! :map key-translation-map "H-<kp-0>" "0")
+
 (map! :map key-translation-map "C-H-<backspace>" "C-<backspace>")
 #+end_src
 
