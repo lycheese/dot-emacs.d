@@ -78,7 +78,7 @@ Easier binding for =C-x= (=C-c= in QWERTY):
 #+end_src
 
 Make bone work with feature/pgtk:
-#+begin_src elisp
+#+begin_src elisp :tangle no
 ;; (setq x-hyper-keysym 'none)
 
 (map! :map key-translation-map "H-<up>" "<up>")
