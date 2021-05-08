@@ -18,6 +18,7 @@ Personal font config with pcase and hostname detection:
 #+begin_src elisp
 (pcase (system-name)
   ("nanocore" (setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 13.0)))
+  ("nanoforge" (setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 13.0)))
   ("nanorocket" (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 11.0)))
   ("pop-os" (setq doom-font (font-spec :family "Fira Code" :size 13.0)))
   (_ (message "No font for this hostname defined")))
@@ -71,6 +72,29 @@ Easier binding for =C-x= (=C-c= in QWERTY):
 (map! :map key-translation-map "C-ü" "C-x")
 #+end_src
 
+Make bone work with feature/pgtk:
+#+begin_src elisp
+;; (setq x-hyper-keysym 'none)
+
+(map! :map key-translation-map "H-<up>" "<up>")
+(map! :map key-translation-map "H-<down>" "<down>")
+(map! :map key-translation-map "H-<left>" "<left>")
+(map! :map key-translation-map "H-<right>" "<right>")
+(map! :map key-translation-map "H-<escape>" "<escape>")
+(map! :map key-translation-map "H-<delete>" "<deletechar>")
+(map! :map key-translation-map "H-<tab>" "<tab>")
+(map! :map key-translation-map "H-<backspace>" "DEL")
+(map! :map key-translation-map "H-<return>" "RET")
+(map! :map key-translation-map "H-<home>" "<home>")
+(map! :map key-translation-map "H-<end>" "<end>")
+(map! :map key-translation-map "H-<prior>" "<prior>")
+(map! :map key-translation-map "H-<next>" "<next>")
+(map! :map key-translation-map "H-<insert>" "<insert>")
+(map! :map key-translation-map "H-<undo>" "<undo>")
+
+(map! :map key-translation-map "C-H-<backspace>" "C-<backspace>")
+#+end_src
+
 Make org-agenda and org-capture quicker to open:
 #+begin_src elisp
 (map! :g "C-c a" 'org-agenda-list
@@ -90,6 +114,12 @@ Make avy be nicer with bone:
 (after! avy
   :config
   (setq avy-keys '(?c ?t ?i ?e ?n ?r ?s ?g)))
+#+end_src
+
+Make ace-window nicer with bone:
+#+begin_src elisp
+(after! ace-window
+  (setq aw-keys '(?t ?i ?e ?r ?s ?g)))
 #+end_src
 
 Make evil snipe nice to work with:
