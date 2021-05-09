@@ -51,3 +51,4 @@
 
 (package! org-super-agenda)
 (package! hyperbole)
+(package! debbugs)
