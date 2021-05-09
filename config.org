@@ -85,39 +85,6 @@ Make bone work with feature/pgtk:
 (put 'none 'modifier-value 0)
 (setq x-hyper-keysym 'none)
 #+end_src
-#+begin_src elisp :tangle no
-;; (setq x-hyper-keysym 'none)
-
-(map! :map key-translation-map "H-<up>" "<up>")
-(map! :map key-translation-map "H-<down>" "<down>")
-(map! :map key-translation-map "H-<left>" "<left>")
-(map! :map key-translation-map "H-<right>" "<right>")
-(map! :map key-translation-map "H-<escape>" "<escape>")
-(map! :map key-translation-map "H-<delete>" "<deletechar>")
-(map! :map key-translation-map "H-<tab>" "<tab>")
-(map! :map key-translation-map "H-<backspace>" "DEL")
-(map! :map key-translation-map "H-<return>" "RET")
-(map! :map key-translation-map "H-<home>" "<home>")
-(map! :map key-translation-map "H-<end>" "<end>")
-(map! :map key-translation-map "H-<prior>" "<prior>")
-(map! :map key-translation-map "H-<next>" "<next>")
-(map! :map key-translation-map "H-<insert>" "<insert>")
-(map! :map key-translation-map "H-<undo>" "<undo>")
-
-
-(map! :map key-translation-map "H-<kp-1>" "1")
-(map! :map key-translation-map "H-<kp-2>" "2")
-(map! :map key-translation-map "H-<kp-3>" "3")
-(map! :map key-translation-map "H-<kp-4>" "4")
-(map! :map key-translation-map "H-<kp-5>" "5")
-(map! :map key-translation-map "H-<kp-6>" "6")
-(map! :map key-translation-map "H-<kp-7>" "7")
-(map! :map key-translation-map "H-<kp-8>" "8")
-(map! :map key-translation-map "H-<kp-9>" "9")
-(map! :map key-translation-map "H-<kp-0>" "0")
-
-(map! :map key-translation-map "C-H-<backspace>" "C-<backspace>")
-#+end_src
 
 Make org-agenda and org-capture quicker to open:
 #+begin_src elisp
