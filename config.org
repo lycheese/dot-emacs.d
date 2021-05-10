@@ -197,85 +197,6 @@ This determines the style of line numbers in effect. If set to `nil', line numbe
   ;; Org todo keywords
   <<org-todo-states>>)
 #+end_src
-** org-todo-states
-#+name: org-todo-states
-#+begin_src elisp :tangle no
-(setq org-todo-keywords '((sequence "TODO(t)"
-                                    "PROJ(p)"
-                                    "STRT(s@)"
-                                    "WAIT(w@/!)"
-                                    "HOLD(h@/!)"
-                                    "IDEA(i)"
-                                    "FILE(f@)"
-                                    "|"
-                                    "DONE(d!)"
-                                    "KILL(k@)")
-                          (sequence "[ ](T)"
-                                    "[-](S)"
-                                    "[?](W)"
-                                    "|"
-                                    "[X](D)")
-                          (sequence "|"
-                                    "OKAY(o)"
-                                    "YES(y)"
-                                    "NO(n)")))
-
-(add-to-list 'org-todo-keyword-faces '("FILE" . +org-todo-active))
-#+end_src
-** org-super-agenda
-#+name: org-super-agenda-config
-#+begin_src elisp :tangle no
-(use-package org-super-agenda
-    :hook (org-agenda-mode . org-super-agenda-mode)
-    :init
-    (setq org-super-agenda-groups
-          '((:name "Habits"
-             :habit t
-             :order 2)
-            (:name "Today"
-             :time-grid t
-             :todo "TODAY"
-             :scheduled today
-             :order 1)
-            (:name "Important"
-             :tag "Important"
-             :tag "Family"
-             :order 1)
-            (:name "Critically overdue"
-             :and (:deadline past
-                   :not (:todo "FILE"))
-             :order 0)
-            (:name "Overdue Uni Stuff"
-             :and (:scheduled past
-                   :tag "Uni"
-                   :not (:todo "FILE"))
-             :order 3)
-            (:name "Uni Stuff to be filed"
-             :and (:tag "Uni"
-                   :todo "FILE")
-             :order 4)
-            (:name "University Stuff"
-             :tag "Uni"
-             :order 3)
-            (:name "Completed projects that still need to be filed away"
-             :todo "FILE"
-             :order 95)
-            (:name "Scheduled Projects"
-             :todo "PROJ"
-             :order 97)
-            (:name "Emacs Stuff"
-             :tag "Emacs"
-             :order 98)
-            (:name "Reading"
-             :tag "Books"
-             :order 96)
-            (:name "Overdue"
-             :and  (:scheduled past
-                    :not (:todo "PROJ"))
-             :order 1)))
-    :config
-    (setq org-super-agenda-header-map (make-sparse-keymap)))
-#+end_src
 ** org-capture-templates
 #+name: org-capture-templates
 #+begin_src elisp :tangle no :noweb yes
@@ -372,6 +293,91 @@ This determines the style of line numbers in effect. If set to `nil', line numbe
 ("jo" "Other japanese vocab" entry
  (file+olp+datetree "hobby/japanese.org" "Vocab" "Other")
  "* %^{Japanese} \[%^{Reading}\] %^g\nTranslation: %^{English}\nNew Kanji?: %^{New Kanji?|Yes|No}\nAdditional stuff: %?")
+#+end_src
+** org-sidebar
+#+begin_src elisp
+(use-package! org-sidebar
+  :commands (org-sidebar
+             org-sidebar-tree))
+#+end_src
+** org-super-agenda
+#+name: org-super-agenda-config
+#+begin_src elisp :tangle no
+(use-package org-super-agenda
+    :hook (org-agenda-mode . org-super-agenda-mode)
+    :init
+    (setq org-super-agenda-groups
+          '((:name "Habits"
+             :habit t
+             :order 2)
+            (:name "Today"
+             :time-grid t
+             :todo "TODAY"
+             :scheduled today
+             :order 1)
+            (:name "Important"
+             :tag "Important"
+             :tag "Family"
+             :order 1)
+            (:name "Critically overdue"
+             :and (:deadline past
+                   :not (:todo "FILE"))
+             :order 0)
+            (:name "Overdue Uni Stuff"
+             :and (:scheduled past
+                   :tag "Uni"
+                   :not (:todo "FILE"))
+             :order 3)
+            (:name "Uni Stuff to be filed"
+             :and (:tag "Uni"
+                   :todo "FILE")
+             :order 4)
+            (:name "University Stuff"
+             :tag "Uni"
+             :order 3)
+            (:name "Completed projects that still need to be filed away"
+             :todo "FILE"
+             :order 95)
+            (:name "Scheduled Projects"
+             :todo "PROJ"
+             :order 97)
+            (:name "Emacs Stuff"
+             :tag "Emacs"
+             :order 98)
+            (:name "Reading"
+             :tag "Books"
+             :order 96)
+            (:name "Overdue"
+             :and  (:scheduled past
+                    :not (:todo "PROJ"))
+             :order 1)))
+    :config
+    (setq org-super-agenda-header-map (make-sparse-keymap)))
+#+end_src
+** org-todo-states
+#+name: org-todo-states
+#+begin_src elisp :tangle no
+(setq org-todo-keywords '((sequence "TODO(t)"
+                                    "PROJ(p)"
+                                    "STRT(s@)"
+                                    "WAIT(w@/!)"
+                                    "HOLD(h@/!)"
+                                    "IDEA(i)"
+                                    "FILE(f@)"
+                                    "|"
+                                    "DONE(d!)"
+                                    "KILL(k@)")
+                          (sequence "[ ](T)"
+                                    "[-](S)"
+                                    "[?](W)"
+                                    "|"
+                                    "[X](D)")
+                          (sequence "|"
+                                    "OKAY(o)"
+                                    "YES(y)"
+                                    "NO(n)")))
+
+(add-to-list 'org-todo-keyword-faces '("FILE" . +org-todo-active))
 #+end_src
 * Programming
 ** julia

@@ -50,5 +50,9 @@
 ;(unpin! t)
 
 (package! org-super-agenda)
+(package! org-sidebar
+  :recipe (:host github :repo "alphapapa/org-sidebar"))
+
 (package! hyperbole)
+
 (package! debbugs)
