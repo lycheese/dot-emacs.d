@@ -1,11 +1,17 @@
 #+TITLE: Doom Emacs Configuration
 * Evil
+Get back Emacs bindings in insert state:
 #+begin_src elisp
 (setq! evil-disable-insert-state-bindings t)
 
 (map! :after evil-org
       :map evil-org-mode-map
       :i "C-h" nil)
+#+end_src
+
+Make multi-line edits with V->I work:
+#+begin_src elisp
+(setq! evil-respect-visual-line-mode nil)
 #+end_src
 * Font
 Doom exposes five (optional) variables for controlling fonts in Doom. Here
