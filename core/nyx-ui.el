@@ -3,6 +3,11 @@
 ;;; Code:
 (straight-use-package 'chocolate-theme)
 
+(enable-theme 'chocolate)
+
+(setq global-hl-line-mode t
+      global-visual-line-mode t)
+
 (blink-cursor-mode -1)
 
 (setq ring-bell-function 'ignore

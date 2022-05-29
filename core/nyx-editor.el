@@ -21,6 +21,14 @@
       auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;;;; Repeat mode
+(setq repeat-mode t)
+
+
+;;;; isearch
+(setq isearch-allow-motion t)
+
+
 ;;;; Savehist:
 
 (require 'savehist)
@@ -107,21 +115,9 @@
 (global-set-key [remap zap-to-char] #'zap-up-to-char)
 
 
-;;;; winner-mode:
-
-;; NOTE: Currently unused since winner-mode doesn't understand tab-bar-mode
-;; Make `winner-undo' and `winner-redo' repeatable
-;; (defvar winner-undo-repeat-map
-;;   (let ((map (make-sparse-keymap)))
-;;     (define-key map (kbd "<left>") 'winner-undo)
-;;     (define-key map (kbd "<right>") 'winner-redo)
-;;     map)
-;;   "Keymap to repeat `winner-undo' key sequences. Used in `repeat-mode'.")
-
-;; (put 'winner-undo 'repeat-map 'winner-undo-repeat-map)
-;; (put 'winner-redo 'repeat-map 'winner-undo-repeat-map)
-
 ;;; Tab Bar:
+(setq tab-bar-mode t
+      tab-bar-history-mode t)
 
 ;; tab-bar-mode bindings
 (global-set-key (kbd "M-[") #'tab-bar-history-back)
