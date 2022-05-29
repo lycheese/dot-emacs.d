@@ -1,13 +1,15 @@
 ;;; nyx-editor.el -*- lexical-binding: t; -*-
 
 ;;; Code:
-(nyx-ensure-packages '(cape		; TODO look into cape
-		       corfu
-		       corfu-doc
-		       helpful
-		       magit
-		       orderless
-		       vertico))
+(dolist (package '(cape			; TODO look into cape
+		   corfu
+		   corfu-doc
+		   eglot
+		   helpful
+		   magit
+		   orderless
+		   vertico))
+  (straight-use-package package))
 
 (require 'corfu)
 ;;(require 'helpful)

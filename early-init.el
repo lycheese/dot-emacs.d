@@ -12,3 +12,6 @@
 (push '(mouse-color . "white") default-frame-alist)
 (push '(undecorated . t) default-frame-alist)
 (push '(fullscreen . maximized) default-frame-alist)
+
+;; For straight
+(setq package-enable-at-startup nil)

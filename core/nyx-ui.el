@@ -1,7 +1,7 @@
 ;;; nyx-ui.el -*- lexical-binding: t; -*-
 
 ;;; Code:
-(nyx-ensure-packages '(chocolate-theme))
+(straight-use-package 'chocolate-theme)
 
 (blink-cursor-mode -1)
 

@@ -1,7 +1,8 @@
 ;;; nyx-clojure.el -*- lexical-binding: t; -*-
 
 ;;; Code:
-(nyx-ensure-packages '(clojure-mode cider))
+(dolist (package '(clojure-mode cider))
+  (straight-use-package package))
 
 (provide 'nyx-clojure)
 ;;; nyx-clojure.elends here
