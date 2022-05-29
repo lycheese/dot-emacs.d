@@ -14,19 +14,5 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(defvar nyx-core-packages
-  '(helpful
-    corfu
-    puni
-    ;;tempel ;; try `skeletons' first
-    link-hint
-    puni
-    chocolate-theme
-    hyperbole
-    which-key))
-
-(dolist (package nyx-core-packages)
-  (straight-use-package package))
-
 (provide 'nyx-packages)
 ;;; nyx-packages.el ends here

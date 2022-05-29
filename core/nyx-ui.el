@@ -14,6 +14,8 @@
 (setq ring-bell-function 'ignore
       use-short-answers t)
 
+(straight-use-package 'which-key)
+
 (if (daemonp)
     (add-hook 'server-after-make-frame-hook 'which-key-mode)
   (which-key-mode +1))
