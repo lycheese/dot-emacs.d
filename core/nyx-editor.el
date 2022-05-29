@@ -7,9 +7,11 @@
 		   eglot
 		   helpful
 		   magit
-		   orderless
-		   vertico))
+		   orderless))
   (straight-use-package package))
+
+(straight-use-package '(vertico :files (:defaults "extensions/*")
+				:includes (vertico-directory)))
 
 (require 'corfu)
 ;;(require 'helpful)
@@ -68,7 +70,9 @@
 (setq enable-recursive-minibuffers t)
 
 ;; Make directory movement better
-(define-key vertico-map (kbd "DEL") #'vertico-directory-delete-char)
+(with-eval-after-load 'vertico
+  (require 'vertico-directory)
+  (define-key vertico-map (kbd "DEL") #'vertico-directory-delete-char))
 
 ;;;; Corfu:
 
