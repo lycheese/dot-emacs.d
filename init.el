@@ -16,8 +16,14 @@
 (require 'nyx-core)
 (require 'nyx-editor)
 
+(defvar nyx-host-modules nil
+  "List of modules to be installed for host.")
+
 (if (file-exists-p nyx-modules-file)
-    (load nyx-modules-file)
+    (progn (load nyx-modules-file)
+	   (when nyx-host-modules
+	     (dolist (module nyx-host-modules)
+	       (require (intern (concat "nyx-" (symbol-name module)))))))
   (message (concat "No modules file for host <" (system-name) ">!")))
 
 ;; Make GC pauses faster by decreasing the threshold.

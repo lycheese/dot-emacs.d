@@ -1,8 +1,9 @@
-;;; nanoforge-modules.el --- Modules for host <nanoforge>  -*- lexical-binding: t; -*-
+;;; jormungandr-modules.el --- Modules for host <jormungandr>  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022  
 
-;; Author: Lycheese <dev@lycheese.org>
+;; Author:  <lycheese@jormungandr>
+;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,5 +25,5 @@
 ;;; Code:
 (setq nyx-host-modules '(clojure hyperbole nix))
 
-(provide 'nanoforge-modules)
-;;; nanoforge-modules.el ends here
+(provide 'jormungandr-modules)
+;;; jormungandr-modules.el ends here
