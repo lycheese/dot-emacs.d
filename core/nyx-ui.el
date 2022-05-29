@@ -3,6 +3,7 @@
 ;;; Code:
 (straight-use-package 'chocolate-theme)
 
+(require 'chocolate-theme)
 (enable-theme 'chocolate)
 
 (setq global-hl-line-mode t
