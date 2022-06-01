@@ -1,10 +1,11 @@
 ;;; nyx-ui.el -*- lexical-binding: t; -*-
 
 ;;; Code:
-(straight-use-package 'chocolate-theme)
+;; (straight-use-package 'chocolate-theme)
+(straight-use-package 'zenburn-theme)
 
-(require 'chocolate-theme)
-(enable-theme 'chocolate)
+;; (require 'chocolate-theme)
+(load-theme 'zenburn t)
 
 (setq global-hl-line-mode t
       global-visual-line-mode t)
