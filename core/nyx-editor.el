@@ -80,12 +80,21 @@
 
 ;; Enable corfu
 (global-corfu-mode 1)
+
 ;; `<TAB>' activates completion
-(setq tab-always-indent 'complete
-      corfu-auto t)
+(setq tab-always-indent 'complete)
+
+;; Automatically start completion
+(setq corfu-auto t
+      ;; And make the orderless separator ,
+      corfu-separator ?,
+      orderless-component-separator "[ ,]")
+
+
 ;; Orderless completion
 (setq completion-styles '(orderless basic)
-      corfu-quit-at-boundary nil)
+      corfu-quit-at-boundary 'separator)
+
 ;; Display docstrings for completion candidates
 (add-hook 'corfu-mode-hook #'corfu-doc-mode)
 
