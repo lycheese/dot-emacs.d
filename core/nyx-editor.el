@@ -169,5 +169,13 @@
 (global-set-key (kbd "M-_") #'tab-undo)
 
 
+;;; Tree Sitter
+;; (straight-use-package 'tree-sitter)
+;; (straight-use-package 'tree-sitter-langs)
+
+;; (require 'tree-sitter)
+;; (require 'tree-sitter-langs)
+
+
 (provide 'nyx-editor)
 ;;; nyx-editor.elends here
