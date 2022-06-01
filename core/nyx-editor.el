@@ -1,20 +1,16 @@
 ;;; nyx-editor.el -*- lexical-binding: t; -*-
 
 ;;; Code:
-(dolist (package '(cape			; TODO look into cape
+(dolist (package '(cape
 		   corfu
 		   corfu-doc
 		   eglot
 		   helpful
 		   magit
-		   orderless))
+		   orderless
+		   puni))
   (straight-use-package package))
 
-(straight-use-package '(vertico :files (:defaults "extensions/*")
-				:includes (vertico-directory)))
-
-(require 'corfu)
-;;(require 'helpful)
 
 ;; store backup and auto-save files in /tmp
 (setq backup-directory-alist
@@ -23,17 +19,17 @@
       auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-;;;; Repeat mode
+;;; Repeat mode
 (setq repeat-mode t)
 
 
-;;;; isearch
+;;; isearch
 (setq isearch-allow-motion t)
 
 
-;;;; Savehist:
-
+;;; Savehist:
 (require 'savehist)
+
 (setq savehist-additional-variables
       ;; search entries
       '(search-ring regexp-search-ring)
@@ -41,9 +37,13 @@
       savehist-autosave-interval 60
       ;; keep the home clean
       savehist-file (expand-file-name "savehist" nyx-local-dir))
+
 (savehist-mode +1)
 
-;;;; Vertico&Co:
+
+;;; Vertico&Co:
+(straight-use-package '(vertico :files (:defaults "extensions/*")
+				:includes (vertico-directory)))
 
 (vertico-mode 1)
 
@@ -55,6 +55,7 @@
                   (car args))
           (cdr args)))
 (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
 
 ;; Do not allow the cursor in the minibuffer prompt
 (setq minibuffer-prompt-properties
@@ -72,20 +73,59 @@
 ;; Make directory movement better
 (with-eval-after-load 'vertico
   (require 'vertico-directory)
-  (define-key vertico-map (kbd "DEL") #'vertico-directory-delete-char))
+  (define-key vertico-map (kbd "<backspace>") #'vertico-directory-delete-char))
 
-;;;; Corfu:
+;;; Corfu:
+(require 'corfu)
 
 ;; Enable corfu
 (global-corfu-mode 1)
 ;; `<TAB>' activates completion
-(setq tab-always-indent 'complete)
+(setq tab-always-indent 'complete
+      corfu-auto t)
 ;; Orderless completion
-(setq completion-styles '(orderless basic))
+(setq completion-styles '(orderless basic)
+      corfu-quit-at-boundary nil)
 ;; Display docstrings for completion candidates
 (add-hook 'corfu-mode-hook #'corfu-doc-mode)
 
-;;;; Helpful:
+
+;;; Eglot
+(setq completion-category-overrides '((eglot (styles orderless))))
+
+
+;;; Electric pair mode
+(electric-pair-mode 1)
+
+
+;;; Flymake
+(straight-use-package '(flymake :type built-in))
+
+(with-eval-after-load 'flymake
+  (define-key flymake-mode-map (kbd "M-n") #'flymake-goto-next-error)
+  (define-key flymake-mode-map (kbd "M-p") #'flymake-goto-prev-error))
+
+
+;;; Puni
+(require 'puni)
+(puni-global-mode 1)
+(add-hook 'term-mode-hook #'puni-disable-puni-mode)
+
+(define-key puni-mode-map (kbd "C-{") #'puni-slurp-forward)
+(define-key puni-mode-map (kbd "C-}") #'puni-barf-forward)
+
+
+;;; Lispy (for LISPs)
+(straight-use-package 'lispy)
+
+(defun enable-lispy ()
+  (lispy-mode 1))
+
+(add-hook 'emacs-lisp-mode-hook #'puni-disable-puni-mode)
+(add-hook 'emacs-lisp-mode-hook #'enable-lispy)
+
+
+;;; Helpful:
 
 ;; Helpful help buffers
 (global-set-key [remap describe-function] #'helpful-callable)
@@ -96,7 +136,7 @@
 (global-set-key (kbd "C-h F") #'helpful-function)
 
 
-;;;; Key Bindings:
+;;; Key Bindings:
 
 ;; More reachable ?-x on bone
 (define-key key-translation-map (kbd "C-ü") (kbd "C-x"))
