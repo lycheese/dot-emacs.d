@@ -1,8 +1,9 @@
-;;; nanoforge-modules.el --- Modules for host <nanoforge>  -*- lexical-binding: t; -*-
+;;; nyx-gnus.el --- Module for Gnus                  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022  
+;; Copyright (C) 2022
 
-;; Author: Lycheese <dev@lycheese.org>
+;; Author:  <lycheese@nanoforge>
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -19,10 +20,13 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
-(setq nyx-host-modules '(clojure gnus hyperbole nix))
+(setq gnus-select-method
+      '(nnimap "imap.fastmail.com"
+	       (nnimap-inbox "Emacs-Devel")))
 
-(provide 'nanoforge-modules)
-;;; nanoforge-modules.el ends here
+
+(provide 'nyx-gnus)
+;;; nyx-gnus.el ends here
