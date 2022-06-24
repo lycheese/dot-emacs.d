@@ -31,6 +31,9 @@
 	       buffer-file-name)))))
 
 
+;;; vterm
+(straight-use-package 'vterm)
+
 
 (provide 'nyx-core)
 ;;; nyx-core.elends here
