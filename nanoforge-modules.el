@@ -22,7 +22,7 @@
 ;; 
 
 ;;; Code:
-(setq nyx-host-modules '(clojure gnus hyperbole nix))
+(setq nyx-host-modules '(clojure epub gnus nix org racket))
 
 (provide 'nanoforge-modules)
 ;;; nanoforge-modules.el ends here
