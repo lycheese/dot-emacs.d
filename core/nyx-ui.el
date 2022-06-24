@@ -2,10 +2,12 @@
 
 ;;; Code:
 ;; (straight-use-package 'chocolate-theme)
-(straight-use-package 'zenburn-theme)
+;; (straight-use-package 'zenburn-theme)
+;; (straight-use-package 'dracula-theme)
+(straight-use-package 'doom-themes)
 
 ;; (require 'chocolate-theme)
-(load-theme 'zenburn t)
+(load-theme 'doom-dracula t)
 
 (setq global-hl-line-mode t
       global-visual-line-mode t)
