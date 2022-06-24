@@ -224,5 +224,11 @@
 ;; (require 'tree-sitter-langs)
 
 
+;;; ws-butler
+(straight-use-package 'ws-butler)
+
+(add-hook 'prog-mode-hook #'ws-butler-mode)
+
+
 (provide 'nyx-editor)
 ;;; nyx-editor.elends here
