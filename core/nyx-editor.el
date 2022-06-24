@@ -21,6 +21,13 @@
       auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+
+;;; rainbow-delimiters
+(straight-use-package 'rainbow-delimiters)
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+
 ;;; Repeat mode
 (setq repeat-mode t)
 
