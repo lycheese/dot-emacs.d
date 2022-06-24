@@ -84,6 +84,12 @@
   (require 'vertico-directory)
   (define-key vertico-map (kbd "<backspace>") #'vertico-directory-delete-char))
 
+;; Show helpful info with marginalia
+(straight-use-package 'marginalia)
+
+(marginalia-mode +1)
+
+
 ;;; Corfu:
 (require 'corfu)
 
