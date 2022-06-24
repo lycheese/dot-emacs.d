@@ -130,6 +130,28 @@
   (define-key flymake-mode-map (kbd "M-p") #'flymake-goto-prev-error))
 
 
+;;; hl-todo
+(straight-use-package 'hl-todo)
+
+(setq hl-todo-keyword-faces '(("TODO" warning bold)
+			      ("FIXME" error bold)
+			      ("HACK" font-lock-constant-face bold)
+			      ("REVIEW" font-lock-keyword-face bold)
+			      ("NOTE" success bold)
+			      ("DEPRECATED" font-lock-doc-face bold)
+			      ("BUG" error bold)
+			      ("XXX" font-lock-constant-face bold)))
+
+(global-hl-todo-mode +1)
+
+
+;;; Magit
+;; Magit-TODOs
+(straight-use-package 'magit-todos) 	; requires grep or rg
+
+(add-hook 'magit-mode-hook #'magit-todos-mode)
+
+
 ;;; Puni
 (require 'puni)
 (puni-global-mode 1)
