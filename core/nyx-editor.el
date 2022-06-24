@@ -156,6 +156,7 @@
 (require 'puni)
 (puni-global-mode 1)
 (add-hook 'term-mode-hook #'puni-disable-puni-mode)
+(add-hook 'Info-mode-hook #'puni-disable-puni-mode)
 
 (define-key puni-mode-map (kbd "C-{") #'puni-slurp-forward)
 (define-key puni-mode-map (kbd "C-}") #'puni-barf-forward)
