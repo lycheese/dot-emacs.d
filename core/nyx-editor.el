@@ -12,6 +12,8 @@
   (straight-use-package package))
 
 
+(setq indent-tabs-mode nil)
+
 ;; store backup and auto-save files in /tmp
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory))
