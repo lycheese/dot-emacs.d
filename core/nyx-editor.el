@@ -220,6 +220,10 @@
 (global-set-key (kbd "M-]") #'tab-bar-history-forward)
 (global-set-key (kbd "M-_") #'tab-undo)
 
+;; did not work out of the box for some reason
+(global-set-key (kbd "C-<tab>") #'tab-next)
+(global-set-key (kbd "C-S-<iso-lefttab>") #'tab-previous)
+
 
 ;;; Tree Sitter
 ;; (straight-use-package 'tree-sitter)
