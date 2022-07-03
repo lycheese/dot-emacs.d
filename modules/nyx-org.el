@@ -254,9 +254,20 @@
                             "#+title: ${title}\n")
          :unnarrowed t)
         ("l" "literature" plain "%?"
-         :target (file+head "literature/%<%Y%m%d%H%M%S>-${slug}.org"
-                            "#+title: ${title}\n")
-         :unnarrowed t)
+	 :immediate-finish t
+         :target (file+head "literature/${citekey}.org"
+                            "#+title: ${title}
+
+* ${title}
+  :PROPERTIES:
+  :Custom_ID: ${citekey}
+  :URL: ${url}
+  :AUTHOR: ${author}
+  :NOTER_DOCUMENT: ${file}
+  :NOTER_PAGE:
+  :END:\n\n")
+         :unnarrowed t
+	 :immediate-finish t)
         ("p" "project-associated" plain "%?"
          :target (file+head "projects/${project}/%<%Y%m%d%H%M%S>-${slug}.org"
                             "#+title: ${title}\n")
