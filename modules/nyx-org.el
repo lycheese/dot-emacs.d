@@ -273,6 +273,23 @@
 (global-set-key (kbd "C-c n d v") #'org-roam-dailies-capture-date)
 (global-set-key (kbd "C-c n d y") #'org-roam-dailies-goto-yesterday)
 
+;; org-roam-bibtex
+(straight-use-package 'org-roam-bibtex)
+(straight-use-package 'citar)
+
+(setq citar-open-note-function '(orb-citar-edit-note)
+      citar-bibliography '("~/org/bibtex/primary.bib" ;; "~/org/bib/references.bib"
+			   )
+      citar-notes-paths '("~/org/roam/literature/")
+      orb-roam-ref-format 'org-cite)
+
+(global-set-key (kbd "C-c n a") #'citar-open)
+
+(org-roam-bibtex-mode 1)
+
+;; org-noter
+(straight-use-package 'org-noter)
+
 
 ;;; commands
 (defun nyx-find-file-in-notes ()
