@@ -30,29 +30,35 @@
 (straight-use-package 'org-pomodoro)
 
 ;; personal
+(add-hook 'org-mode-hook #'visual-line-mode)
+
 (setq org-directory "~/org"
       org-startup-indented t
       org-startup-folded t
       org-todo-keywords '((sequence "TODO(t)"
-			       "PROJ(p)"
-			       "STRT(s@)"
-			       "WAIT(w@/!)"
-			       "HOLD(h@/!)"
-			       "IDEA(i)"
-			       "FILE(f@)"
-			       "|"
-			       "DONE(d!)"
-			       "KILL(k@)")
-		     (sequence "[ ](T)"
-			       "[-](S)"
-			       "[?](W)"
-			       "|"
-			       "[X](D)")
-		     (sequence "|"
-			       "OKAY(o)"
-			       "YES(y)"
-			       "NO(n)"))
- org-log-into-drawer t)
+				    "PROJ(p)"
+				    "STRT(s@)"
+				    "WAIT(w@/!)"
+				    "HOLD(h@/!)"
+				    "IDEA(i)"
+				    "FILE(f@)"
+				    "|"
+				    "DONE(d!)"
+				    "KILL(k@)")
+			  (sequence "[ ](T)"
+				    "[-](S)"
+				    "[?](W)"
+				    "|"
+				    "[X](D)")
+			  (sequence "|"
+				    "OKAY(o)"
+				    "YES(y)"
+				    "NO(n)"))
+      org-log-into-drawer t)
+
+;;; latex
+(setq org-preview-latex-default-process 'dvisvgm)
+
 
 ;;; org-agenda
 (global-set-key (kbd "C-c n a") #'org-agenda)
