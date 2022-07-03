@@ -89,6 +89,11 @@
 
 (marginalia-mode +1)
 
+;; Acting on things
+(straight-use-package 'embark)
+
+(global-set-key (kbd "C-.") #'embark-act)
+
 
 ;;; Corfu:
 (require 'corfu)
