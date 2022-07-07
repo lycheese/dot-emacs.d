@@ -120,7 +120,10 @@
 
 
 ;;; Eglot
-(setq completion-category-overrides '((eglot (styles orderless))))
+(setq completion-category-overrides '((eglot (styles orderless)))
+      eglot-confirm-server-initiated-edits nil)
+
+;; TODO: customize eglot-highlight-symbol-face
 
 
 ;;; Electric pair mode
