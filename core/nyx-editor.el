@@ -94,6 +94,19 @@
 
 (global-set-key (kbd "C-.") #'embark-act)
 
+;; listing things
+(straight-use-package 'consult)
+
+;; listing notes
+(straight-use-package '(consult-notes :type git
+				      :host github
+				      :repo "mclear-tools/consult-notes"))
+
+(setq consult-notes-sources
+      `(("Journal" ?j "~/Documents/Journal")
+	("Org"     ?o "~/org")))
+
+(global-set-key (kbd "C-c n n") #'consult-notes)
 
 ;;; Corfu:
 (require 'corfu)
