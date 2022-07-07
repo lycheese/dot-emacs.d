@@ -23,7 +23,7 @@
 ;; 
 
 ;;; Code:
-(setq nyx-host-modules '(clojure epub nix org pdf tex))
+(setq nyx-host-modules '(clojure denote epub nix org pdf tex))
 
 (provide 'jormungandr-modules)
 ;;; jormungandr-modules.el ends here
