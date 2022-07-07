@@ -240,6 +240,15 @@
 (global-set-key (kbd "C-<tab>") #'tab-next)
 (global-set-key (kbd "C-S-<iso-lefttab>") #'tab-previous)
 
+;; tab-bar-mode and project.el integration
+(straight-use-package '(project-tab-groups :type git
+					   :host github
+					   :repo "fritzgrabo/project-tab-groups"
+					   :fork (:host github
+							:repo "lycheese/project-tab-groups"
+							:branch "fix-project-current")))
+
+(project-tab-groups-mode 1)
 
 ;;; Tree Sitter
 ;; (straight-use-package 'tree-sitter)
