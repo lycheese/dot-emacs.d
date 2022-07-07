@@ -29,7 +29,7 @@
 
 
 ;;; Repeat mode
-(setq repeat-mode t)
+(repeat-mode 1)
 
 
 ;;; isearch
@@ -212,8 +212,8 @@
 
 
 ;;; Tab Bar:
-(setq tab-bar-mode t
-      tab-bar-history-mode t)
+(tab-bar-mode 1)
+(tab-bar-history-mode 1)
 
 ;; tab-bar-mode bindings
 (global-set-key (kbd "M-[") #'tab-bar-history-back)
