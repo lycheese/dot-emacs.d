@@ -30,6 +30,18 @@
        (concat "/sudo:root@localhost:"
 	       buffer-file-name)))))
 
+(defun nyx-create-missing-directories-h ()
+  "Automatically create missing directories when creating new files."
+  (unless (file-remote-p buffer-file-name)
+    (let ((parent-directory (file-name-directory buffer-file-name)))
+      (and (not (file-directory-p parent-directory))
+	   (y-or-n-p (format "Directory `%s' does not exist! Create it?"
+			     parent-directory))
+	   (progn (make-directory parent-directory 'parents)
+		  t)))))
+
+;; Taken from Doom Emacs
+(add-hook 'find-file-not-found-functions #'nyx-create-missing-directories-h)
 
 ;;; vterm
 (straight-use-package 'vterm)
