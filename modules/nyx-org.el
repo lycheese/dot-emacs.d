@@ -24,6 +24,7 @@
 
 ;;; Code:
 (straight-use-package '(org :type built-in))
+(straight-use-package 'org-contrib)
 (straight-use-package 'org-super-agenda)
 (straight-use-package 'org-modern)
 (straight-use-package 'org-roam)
