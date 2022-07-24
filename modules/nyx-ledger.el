@@ -1,9 +1,9 @@
-;;; jormungandr-modules.el --- Modules for host <jormungandr>  -*- lexical-binding: t; -*-
+;;; nyx-ledger.el --- Module for ledger-mode         -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022  
+;; Copyright (C) 2022
 
-;; Author:  <lycheese@jormungandr>
-;; Keywords: 
+;; Author:  <lycheese@nanoforge>
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,10 +20,14 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
-(setq nyx-host-modules '(clojure denote epub ledger nix org pdf tex))
+(straight-use-package 'ledger-mode)
 
-(provide 'jormungandr-modules)
-;;; jormungandr-modules.el ends here
+(with-eval-after-load 'org
+  (add-to-list 'org-babel-load-languages '(ledger . t)))
+
+
+(provide 'nyx-ledger)
+;;; nyx-ledger.el ends here
